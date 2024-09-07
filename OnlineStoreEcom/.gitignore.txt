@@ -1,0 +1,269 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.rev.service.dao.*, com.rev.service.*,com.rev.data.*,java.util.*,jakarta.servlet.ServletOutputStream,java.io.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Details</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/changes.css">
+</head>
+<body style="background-color: #E6F9E6;">
+
+	<%
+	/* Checking the user credentials */
+	String userName = (String) session.getAttribute("username");
+	String password = (String) session.getAttribute("password");
+
+	if (userName == null || password == null) {
+
+		response.sendRedirect("login.jsp?message=Session Expired, Login Again!!");
+
+	}
+
+	OrderService dao = new OrderServiceImpl();
+	List<OrderDetails> orders = dao.getAllOrderDetails(userName);
+	%>
+
+
+
+	<jsp:include page="header.jsp" />
+
+	<!-- <script>document.getElementById('mycart').innerHTML='<i data-count="20" class="fa fa-shopping-cart fa-3x icon-white badge" style="background-color:#333;margin:0px;padding:0px; margin-top:5px;"></i>'</script>
+ --><br>
+	<div class="text-center"
+		style="color: black; font-size: 24px; font-weight: bold; margin:10px">Order
+		Details</div>
+	<!-- Start of Product Items List -->
+	<div class="container">
+		<div class="table-responsive ">
+			<table class="table table-hover table-sm">
+				<thead
+					style="background-color: gray; color: white; font-size: 14px; font-weight: bold;">
+					<tr>
+						<th>Picture</th>
+						<th>ProductName</th>
+						<th>OrderId</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th>Time</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody
+					style="background-color: white; font-size: 15px; font-weight: bold;">
+					<%
+					for (OrderDetails order : orders) {
+					%>
+
+					<tr>
+						<td><img src="./ShowImage?pid=<%=order.getProductId()%>"
+							style="width: 50px; height: 50px;"></td>
+						<td><%=order.getProdName()%></td>
+						<td><%=order.getOrderId()%></td>
+						<td><%=order.getQty()%></td>
+						<td><%=order.getAmount()%></td>
+						<td><%=order.getTime()%></td>
+						<td class="text-success" style="color:#ed4b10"><%=order.getShipped() == 0 ? "ORDER_PLACED" : "ORDER_SHIPPED"%></td>
+					</tr>
+
+					<%
+					}
+					%>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- ENd of Product Items List -->
+
+
+	<%@ include file="footer.html"%>
+</body>
+</html>
+
+
+orderserviceimpl
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.rev.service.dao.*, com.rev.service.*,com.rev.data.*,java.util.*,jakarta.servlet.ServletOutputStream,java.io.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Details</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/changes.css">
+</head>
+<body style="background-color: #E6F9E6;">
+
+	<%
+	/* Checking the user credentials */
+	String userName = (String) session.getAttribute("username");
+	String password = (String) session.getAttribute("password");
+
+	if (userName == null || password == null) {
+
+		response.sendRedirect("login.jsp?message=Session Expired, Login Again!!");
+
+	}
+
+	OrderService dao = new OrderServiceImpl();
+	List<OrderDetails> orders = dao.getAllOrderDetails(userName);
+	%>
+
+
+
+	<jsp:include page="header.jsp" />
+
+	<!-- <script>document.getElementById('mycart').innerHTML='<i data-count="20" class="fa fa-shopping-cart fa-3x icon-white badge" style="background-color:#333;margin:0px;padding:0px; margin-top:5px;"></i>'</script>
+ --><br>
+	<div class="text-center"
+		style="color: black; font-size: 24px; font-weight: bold; margin:10px">Order
+		Details</div>
+	<!-- Start of Product Items List -->
+	<div class="container">
+		<div class="table-responsive ">
+			<table class="table table-hover table-sm">
+				<thead
+					style="background-color: gray; color: white; font-size: 14px; font-weight: bold;">
+					<tr>
+						<th>Picture</th>
+						<th>ProductName</th>
+						<th>OrderId</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th>Time</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody
+					style="background-color: white; font-size: 15px; font-weight: bold;">
+					<%
+					for (OrderDetails order : orders) {
+					%>
+
+					<tr>
+						<td><img src="./ShowImage?pid=<%=order.getProductId()%>"
+							style="width: 50px; height: 50px;"></td>
+						<td><%=order.getProdName()%></td>
+						<td><%=order.getOrderId()%></td>
+						<td><%=order.getQty()%></td>
+						<td><%=order.getAmount()%></td>
+						<td><%=order.getTime()%></td>
+						<td class="text-success" style="color:#ed4b10"><%=order.getShipped() == 0 ? "ORDER_PLACED" : "ORDER_SHIPPED"%></td>
+					</tr>
+
+					<%
+					}
+					%>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- ENd of Product Items List -->
+
+
+	<%@ include file="footer.html"%>
+</body>
+</html>
+
+sevlet
+
+package com.rev.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import com.rev.service.dao.OrderServiceImpl;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+
+
+/**
+ * Servlet implementation class OrderServlet
+ */
+@WebServlet("/OrderServlet")
+public class OrderServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		String userName = (String) session.getAttribute("username");
+		String password = (String) session.getAttribute("password");
+
+		if (userName == null || password == null) {
+			response.sendRedirect("login.jsp?message=Session Expired, Login Again!!");
+			return; // Ensure the response is terminated after redirection
+		}
+
+		double paidAmount = Double.parseDouble(request.getParameter("amount"));
+		String status = new OrderServiceImpl().paymentSuccess(userName, paidAmount);
+
+		PrintWriter pw = response.getWriter();
+		response.setContentType("text/html");
+
+		RequestDispatcher rd = request.getRequestDispatcher("orderDetails.jsp");
+
+		rd.include(request, response);
+
+		pw.println("<script>document.getElementById('message').innerHTML='" + status + "'</script>");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+}
+serice
+package com.rev.service;
+
+import java.util.List;
+
+import com.rev.data.OrderData;
+import com.rev.data.OrderDetails;
+import com.rev.data.TransactionData;
+
+
+public interface OrderService {
+
+	public String paymentSuccess(String userName, double paidAmount);
+
+	public boolean addOrder(OrderData order);
+
+	public boolean addTransaction(TransactionData transaction);
+
+	public int countSoldItem(String prodId);
+
+	public List<OrderData> getAllOrders();
+
+	public List<OrderData> getOrdersByUserId(String emailId);
+
+	public List<OrderDetails> getAllOrderDetails(String userEmailId);
+
+	public String shipNow(String orderId, String prodId);
+}
